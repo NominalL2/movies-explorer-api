@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -17,12 +18,7 @@ mongoose.connect(MONGO_DB, {
   useNewUrlParser: true,
 });
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-  next()
-})
+app.use(cors());
 
 app.use(requestLogger);
 
