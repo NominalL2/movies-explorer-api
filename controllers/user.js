@@ -95,12 +95,12 @@ module.exports.login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      throw new AuthorizationError('Неправельные логин или пароль');
+      throw new AuthorizationError('Неправильные логин или пароль');
     }
 
-    const login = bcrypt.compare(password, user.password);
+    const login = await bcrypt.compare(password, user.password);
     if (!login) {
-      throw new AuthorizationError('Неправельные логин или пароль');
+      throw new AuthorizationError('Неправильные логин или пароль');
     }
 
     const token = jwt.sign(
